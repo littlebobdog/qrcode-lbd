@@ -5,6 +5,6 @@ learning streamlit
 
 `pip install streamlit`
 
-`pip install streamlit folium`
+`pip install streamlit qrcode`
 
 `streamlit run sample_app.py`

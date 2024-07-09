@@ -1,37 +1,33 @@
 import streamlit as st
-import folium
+import qrcode
+from PIL import Image
+import io
+
+def generate_qr_code(input_string):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(input_string)
+    qr.make(fit=True)
+    qr_img = qr.make_image(fill_color="black", back_color="white")
+    # PIL.Image.Image をバイト型に変換
+    img_byte_arr = io.BytesIO()
+    qr_img.save(img_byte_arr, format='PNG')
+    return img_byte_arr.getvalue()
 
 def main():
-    st.title("大阪府高槻市のマーカーをセットするアプリ")
+    st.title("文字列をQRコードに変換するアプリ")
 
-    # 地図の初期設定（中心とズームレベル）
-    map_center = [34.8567, 135.6174]  # 高槻市の緯度と経度
-    zoom_level = 13
-    m = folium.Map(location=map_center, zoom_start=zoom_level)
-
-    # マーカーの追加
-    st.subheader("マーカーの追加")
-    location_text = st.text_input("マーカーのタイトルを入力してください", "高槻市役所")  # マーカーのタイトルを入力
-    if st.button("マーカーを追加"):
-        add_marker(m, 34.8462, 135.6189, location_text)  # 高槻市役所の緯度と経度を指定してマーカーを追加
-
-    # 地図を表示
-    folium_static(m)
-
-    # HTMLファイルとしてエクスポート
-    if st.button("地図をエクスポート"):
-        export_map(m, "map_export.html")
-
-def add_marker(map_obj, lat, lon, title):
-    folium.Marker(location=[lat, lon], popup=title).add_to(map_obj)
-
-def folium_static(map_obj):
-    folium_static_html = map_obj._repr_html_()
-    st.write(folium_static_html, unsafe_allow_html=True)
-
-def export_map(map_obj, filename):
-    map_obj.save(filename)
-    st.success(f"地図を {filename} としてエクスポートしました。")
+    input_text = st.text_input("QRコードに変換したい文字列を入力してください")
+    if st.button("生成"):
+        if input_text:
+            qr_img_bytes = generate_qr_code(input_text)
+            st.image(qr_img_bytes, caption=f"QRコード: {input_text}", use_column_width=True)
+        else:
+            st.warning("文字列を入力してください。")
 
 if __name__ == "__main__":
     main()
