@@ -19,7 +19,7 @@ def generate_qr_code(input_string):
     return img_byte_arr.getvalue()
 
 def main():
-    st.title("文字列をQRコードに変換するアプリ")
+    st.title("QRコード")
 
     input_text = st.text_input("QRコードに変換したい文字列を入力してください")
     if st.button("生成"):

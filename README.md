@@ -1,10 +1,33 @@
-# sampleWebPage
-learning streamlit
+# Get started
 
-# get started
+## 1. create 
 
-`pip install streamlit`
+```
+python -m venv myenv
+```
 
-`pip install streamlit qrcode`
+## 2. activate
 
-`streamlit run sample_app.py`
+### if macOS / Linux
+
+```
+source myenv/bin/activate
+```
+
+### if Windows
+
+```
+myenv\Scripts\activate
+```
+
+## 3. install
+
+```
+pip install streamlit qrcode
+```
+
+## 4. run
+
+```
+streamlit run sample_app.py
+```
