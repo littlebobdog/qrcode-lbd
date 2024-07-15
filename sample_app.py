@@ -1,6 +1,5 @@
 import streamlit as st
 import qrcode
-from PIL import Image
 import io
 
 def generate_qr_code(input_string):
